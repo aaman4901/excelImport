@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Excel file</title>
+  </head>
+  <body>
+    <input type="file" id="file-input" />
+    <button onclick="updateFile()">Update</button>
+    <div id="response"></div>
+    <script>
+      function updateFile() {
+        const fileInput = document.getElementById('file-input');
+        const file = fileInput.files[0];
+        const url = 'http://localhost:3000/api/dealer/upload-excel-file';
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        fetch(url, {
+          method: 'POST',
+          body: formData
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const responseDiv = document.getElementById('response');
+            if (data.success) {
+              responseDiv.innerHTML = `File uploaded successfully`;
+            } else {
+              responseDiv.innerHTML = data.error;
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML =
+              'An error occurred while uploading the file';
+          });
+      }
+    </script>
+  </body>
+</html>
