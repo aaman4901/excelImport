@@ -24,6 +24,10 @@ app.use(express.static(path.join(__dirname, 'pages')));
 // Enabling routes
 app.use('/api/dealer', require('./routers/dealer'));
 
+app.get('/test', (req, res) => {
+  return res.json({ status: true, message: 'Server is working' });
+});
+
 // Creating uploads folder for media files
 if (!fs.existsSync('./uploads')) {
   fs.mkdirSync('./uploads');
